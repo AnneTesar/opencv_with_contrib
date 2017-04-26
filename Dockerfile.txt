@@ -1,28 +1,27 @@
-# opencv_with_contrib - OpenCV and OpenCV Contrib 
-#            - OpenCV 3.0.0
-#            - Original: https://github.com/gw0/docker-keras
-
-# base image
-
 FROM python:3.5
+
+MAINTAINER Hugo SERRAT <hu.serrat@gmail.com>
 
 RUN apt-get update && apt-get install -y build-essential \
     cmake \
     wget \
     git \
-    unzip \ 
+    unzip \
+    yasm \
     pkg-config \
-    libjpeg62-turbo-dev \
-    libtiff5-dev \
+    libjpeg-dev \
+    libtiff-dev \
     libjasper-dev \
-    libpng12-dev \
+    libpng-dev \
     libavcodec-dev \
     libavformat-dev \
     libswscale-dev \
     libv4l-dev \
-    libgtk2.0-dev \
     libatlas-base-dev \
     gfortran \
+    libtbb2 \
+    libtbb-dev \
+    libpq-dev \
     && apt-get -y clean all \
     && rm -rf /var/lib/apt/lists/*
 
@@ -30,13 +29,13 @@ RUN pip install numpy
 
 WORKDIR /
 
-RUN wget https://github.com/Itseez/opencv/archive/3.0.0.zip -O opencv.zip \
+RUN wget https://github.com/Itseez/opencv/archive/3.1.0.zip -O opencv.zip \
 	&& unzip opencv.zip \
-	&& wget https://github.com/Itseez/opencv_contrib/archive/3.0.0.zip -O opencv_contrib.zip \
+	&& wget https://github.com/Itseez/opencv_contrib/archive/3.1.0.zip -O opencv_contrib.zip \
 	&& unzip opencv_contrib \
-	&& mkdir /opencv-3.0.0/cmake_binary \
-	&& cd /opencv-3.0.0/cmake_binary \
-	&& cmake -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib-3.0.0/modules \
+	&& mkdir /opencv-3.1.0/cmake_binary \
+	&& cd /opencv-3.1.0/cmake_binary \
+	&& cmake -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib-3.1.0/modules \
 	  -DBUILD_TIFF=ON \
 	  -DBUILD_opencv_java=OFF \
 	  -DWITH_CUDA=OFF \
@@ -58,5 +57,5 @@ RUN wget https://github.com/Itseez/opencv/archive/3.0.0.zip -O opencv.zip \
 	&& make install \
 	&& rm /opencv.zip \
 	&& rm /opencv_contrib.zip \
-	&& rm -r /opencv-3.0.0 \
-	&& rm -r /opencv_contrib-3.0.0
+	&& rm -r /opencv-3.1.0 \
+	&& rm -r /opencv_contrib-3.1.0
